@@ -90,26 +90,26 @@ export function createScenery() {
     const lowerRiverBedGeo = new THREE.PlaneGeometry(lowerRiverWidth, lowerRiverLength);
     const lowerRiverBed = new THREE.Mesh(lowerRiverBedGeo, sandMat);
     lowerRiverBed.rotation.x = -Math.PI / 2;
-    lowerRiverBed.position.set(0, lowerRiverY, cliffEdgeZ - lowerRiverLength / 2); // Flow away from camera
+    lowerRiverBed.position.set(0, lowerRiverY, cliffEdgeZ + lowerRiverLength / 2); // Flow away from camera
     group.add(lowerRiverBed);
 
     // Lower river water surface
     const lowerWaterGeo = new THREE.PlaneGeometry(lowerRiverWidth, lowerRiverLength);
     const lowerWater = new THREE.Mesh(lowerWaterGeo, waterMat);
     lowerWater.rotation.x = -Math.PI / 2;
-    lowerWater.position.set(0, lowerRiverY + 0.1, cliffEdgeZ - lowerRiverLength / 2); // Flow away from camera
+    lowerWater.position.set(0, lowerRiverY + 0.1, cliffEdgeZ + lowerRiverLength / 2); // Flow away from camera
     group.add(lowerWater);
 
     // Banks for the lower river
     const lowerBankY = lowerRiverY + 0.2;
     const lowerBankThickness = 0.4;
-    const lowerBankL = createVoxel(-7, lowerBankY - lowerBankThickness/2, cliffEdgeZ - lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
-    const lowerBankR = createVoxel( 7, lowerBankY - lowerBankThickness/2, cliffEdgeZ - lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
+    const lowerBankL = createVoxel(-7, lowerBankY - lowerBankThickness/2, cliffEdgeZ + lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
+    const lowerBankR = createVoxel( 7, lowerBankY - lowerBankThickness/2, cliffEdgeZ + lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
     group.add(lowerBankL, lowerBankR);
 
     // Add some trees/bushes on the lower banks
     for (let i = 0; i < 5; i++) {
-        const z = cliffEdgeZ - 5 - (Math.random() * (lowerRiverLength - 10)); // Position along the new river direction
+        const z = cliffEdgeZ + 5 + (Math.random() * (lowerRiverLength - 10)); // Position along the new river direction
         group.add(createTree(-7.5 - Math.random(), lowerBankY, z));
         group.add(createTree( 7.5 + Math.random(), lowerBankY, z));
         if (Math.random() > 0.5) group.add(createBush(-8 - Math.random(), lowerBankY, z));
