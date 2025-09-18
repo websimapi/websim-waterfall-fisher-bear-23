@@ -84,32 +84,32 @@ export function createScenery() {
     // --- NEW: Lower river at the bottom of the waterfall ---
     const lowerRiverY = -18.1;
     const lowerRiverWidth = 8;
-    const lowerRiverLength = 40; // make it longer, extending towards camera
+    const lowerRiverLength = 40; // make it longer, extending away from camera
 
     // Lower river bed
     const lowerRiverBedGeo = new THREE.PlaneGeometry(lowerRiverWidth, lowerRiverLength);
     const lowerRiverBed = new THREE.Mesh(lowerRiverBedGeo, sandMat);
     lowerRiverBed.rotation.x = -Math.PI / 2;
-    lowerRiverBed.position.set(0, lowerRiverY, cliffEdgeZ + lowerRiverLength / 2);
+    lowerRiverBed.position.set(0, lowerRiverY, cliffEdgeZ - lowerRiverLength / 2); // Flow away from camera
     group.add(lowerRiverBed);
 
     // Lower river water surface
     const lowerWaterGeo = new THREE.PlaneGeometry(lowerRiverWidth, lowerRiverLength);
     const lowerWater = new THREE.Mesh(lowerWaterGeo, waterMat);
     lowerWater.rotation.x = -Math.PI / 2;
-    lowerWater.position.set(0, lowerRiverY + 0.1, cliffEdgeZ + lowerRiverLength / 2);
+    lowerWater.position.set(0, lowerRiverY + 0.1, cliffEdgeZ - lowerRiverLength / 2); // Flow away from camera
     group.add(lowerWater);
 
     // Banks for the lower river
     const lowerBankY = lowerRiverY + 0.2;
     const lowerBankThickness = 0.4;
-    const lowerBankL = createVoxel(-7, lowerBankY - lowerBankThickness/2, cliffEdgeZ + lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
-    const lowerBankR = createVoxel( 7, lowerBankY - lowerBankThickness/2, cliffEdgeZ + lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
+    const lowerBankL = createVoxel(-7, lowerBankY - lowerBankThickness/2, cliffEdgeZ - lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
+    const lowerBankR = createVoxel( 7, lowerBankY - lowerBankThickness/2, cliffEdgeZ - lowerRiverLength/2, 6, lowerBankThickness, lowerRiverLength, grassMat);
     group.add(lowerBankL, lowerBankR);
 
     // Add some trees/bushes on the lower banks
     for (let i = 0; i < 5; i++) {
-        const z = cliffEdgeZ + 5 + Math.random() * (lowerRiverLength - 10);
+        const z = cliffEdgeZ - 5 - (Math.random() * (lowerRiverLength - 10)); // Position along the new river direction
         group.add(createTree(-7.5 - Math.random(), lowerBankY, z));
         group.add(createTree( 7.5 + Math.random(), lowerBankY, z));
         if (Math.random() > 0.5) group.add(createBush(-8 - Math.random(), lowerBankY, z));
@@ -136,23 +136,6 @@ export function createScenery() {
         cliffWallGroup.add(createVoxel(x, y, z, w, h, d, rockMat));
     }
     group.add(cliffWallGroup);
-
-    // Ground at the bottom of the waterfall
-    const waterfallBottomY = -18.1;
-    const bottomGroundGeo = new THREE.PlaneGeometry(12, 15);
-    const bottomGround = new THREE.Mesh(bottomGroundGeo, sandMat);
-    bottomGround.rotation.x = -Math.PI / 2;
-    bottomGround.position.set(0, waterfallBottomY, cliffEdgeZ + 7.5); // Start at cliff edge, extend forward
-    group.add(bottomGround);
-
-    // Add some trees/bushes on the lower banks
-    for (let i = 0; i < 5; i++) {
-        const z = cliffEdgeZ + 5 + Math.random() * (lowerRiverLength - 10);
-        group.add(createTree(-7.5 - Math.random(), lowerBankY, z));
-        group.add(createTree( 7.5 + Math.random(), lowerBankY, z));
-        if (Math.random() > 0.5) group.add(createBush(-8 - Math.random(), lowerBankY, z));
-        if (Math.random() > 0.5) group.add(createBush( 8 + Math.random(), lowerBankY, z));
-    }
 
     const logGeo = new THREE.CylinderGeometry(0.7, 0.7, 9, 8);
     const log = new THREE.Mesh(logGeo, darkBrownMat);
